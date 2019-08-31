@@ -119,7 +119,7 @@ python create_redshift.py
 The script will stop after the cluster is created. Then, you can move on to setup the database and tables:
 
 ```
-%run create_tables
+python create_tables.py
 
 > Creating Tables in Redshift
 > Tables are created in Redshift
@@ -132,7 +132,7 @@ After the tables is setup, you can access airflow via localhost:8080, and begin 
 If you decide to stop using Redshift, you can delete the cluster by running:
 
 ```
-%run delete_redshift
+python delete_redshift.py
 
 > 1. Fetch params
 > 2. Setup Clients
