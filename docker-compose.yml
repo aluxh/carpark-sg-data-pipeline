@@ -1,0 +1,86 @@
+version: '2.1'
+services:
+    postgres:
+        image: postgres:9.6
+        environment:
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+        volumes:
+            - metadata-db:/var/lib/postgresql/data
+
+    pgadmin:
+        image: dpage/pgadmin4:latest
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-aluxh24@yahoo.com}
+            - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-qwerty123}
+        depends_on:
+            - postgres
+            - pg-data
+        ports:
+            - "80:80"
+        volumes:
+            - ./pgadmin:/var/lib/pgadmin
+
+    pg-data:
+        image: postgres
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=docker
+        ports:
+            - "5439:5432"
+        volumes:
+            # link to the alpine volume
+            - carparksg:/var/lib/postgresql/data
+            # link to the data folder for COPY 
+            - ./data:/home/data
+
+    jupyter:
+        image: jupyter/scipy-notebook
+        environment:
+            - NB_UID=${NB_UID:-1000}
+            - JUPYTER_TOKEN=${JUPYTER_TOKEN:-udacity}
+            - JUPYTER_ENABLE_LAB=yes
+        user: root
+        volumes:
+            - ./notebooks:/home/jovyan/work
+            - ./data:/home/jovyan/work/data
+        ports:
+            - "8888:8888"
+            - "4040:4040"
+
+    webserver:
+        image: puckel/docker-airflow:1.10.3
+        restart: always
+        depends_on:
+            - postgres
+            - pg-data
+        environment:
+            - LOAD_EX=n
+            - EXECUTOR=Local
+        volumes:
+            - ./:/usr/local/airflow/dags
+            - ./requirements.txt:/requirements.txt
+            - ./logs:/usr/local/airflow/logs
+            - ./plugins:/usr/local/airflow/plugins
+        ports:
+            - "8080:8080"
+        links:
+            - "pg-data:database"
+        command: webserver
+        healthcheck:
+            test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+            interval: 30s
+            timeout: 30s
+            retries: 3
+
+volumes:
+    # Create a volume for the postgres-data (persistent database)
+    # docker create -v /var/lib/postgresql/data --name postgres-data alpine
+    # docker create -v /var/lib/postgresql/data --name metadata-db alpine
+    metadata-db:
+        external: true
+    carparksg:
+        external: true
+
+

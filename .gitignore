@@ -1,0 +1,9 @@
+_archive
+pgadmin
+.cfg
+data
+notebooks/data
+notebooks/access.cfg
+notebooks/Redshift_connect.ipynb
+notebooks/Explore.ipynb
+/logs
