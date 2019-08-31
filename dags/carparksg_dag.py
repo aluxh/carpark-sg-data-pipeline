@@ -46,8 +46,8 @@ ShortCircuitOperator.ui_color = "#99ccff"
 
 default_args = {
         'owner': 'Alex Ho',
-        'start_date': datetime(2019, 8, 24, 23, 0, 0, 0),
-        'end_date': datetime(2019, 8, 25, 4, 0, 0, 0),
+        'start_date': datetime(2019, 1, 1, 0, 0, 0, 0),
+        # 'end_date': datetime(2019, 8, 25, 4, 0, 0, 0),
         'depends_on_past': True,
         'retries': 5,
         'retry_delay': timedelta(minutes=15),

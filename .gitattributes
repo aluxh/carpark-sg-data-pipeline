@@ -1,0 +1,6 @@
+*.ipynb linguist-vendored
+
+.gitignore export-ignore
+.gitattributes export-ignore
+.ipynb export-ignore
+README.md export-ignore
