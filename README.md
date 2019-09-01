@@ -22,6 +22,12 @@ The data pipeline is developed using Docker containers, where we could deployed 
 - __AWS S3:__ AWS S3 for building the Data Lake
 - __AWS Redshift:__ AWS Redshift for Data Warehouse
 
+### Data Pipeline
+
+This is how the pipeline looks like in the Apache Airflow:
+
+![data pipeline for carpark sg](data_pipeline.JPG)
+
 ### Prerequisites
 
 - You need to have docker installed on your local device or AWS EC2 containers before you beging
